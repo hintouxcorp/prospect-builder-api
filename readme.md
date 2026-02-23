@@ -11,7 +11,7 @@ Projeto em desenvolvimento.
 - Python 3.x
 - Django
 - Django REST Framework
-- Banco de dados: (PostgreSQL ou SQLite – ajuste aqui)
+- Banco de dados: SQLite
 
 ---
 
@@ -23,18 +23,6 @@ A API segue o padrão REST, com separação entre:
 - Serializers (serialização e validação de dados)
 - Views / ViewSets (regras de negócio)
 - Rotas organizadas por app
-
-Estrutura simplificada:
-
-```
-project/
-│
-├── leads/
-├── interactions/
-├── config/
-├── manage.py
-└── requirements.txt
-```
 
 A aplicação foi estruturada para ser consumida por um frontend desacoplado, permitindo escalabilidade independente das camadas.
 
@@ -63,8 +51,8 @@ A implementação de autenticação baseada em JWT e controle de permissões est
 ### 1️⃣ Clonar o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repo.git
-cd seu-repo
+git clone https://github.com/hintouxcorp/prospect-builder-api.git
+cd prospect-builder-api
 ```
 
 ### 2️⃣ Criar ambiente virtual
