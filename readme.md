@@ -8,7 +8,7 @@ Projeto em desenvolvimento.
 
 ## 🚀 Tecnologias Utilizadas
 
-- Python 3.x
+- Python 3.8.0
 - Django
 - Django REST Framework
 - Banco de dados: SQLite
