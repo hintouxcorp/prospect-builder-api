@@ -1,7 +1,10 @@
 from rest_framework import serializers
-from .models import House
-from .models import Contract, ContractItem
+from .models import House, Contract, ContractItem, BusinessType
 
+class BusinessTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BusinessType
+        fields = '__all__'
 
 class HouseSerializer(serializers.ModelSerializer):
     class Meta:

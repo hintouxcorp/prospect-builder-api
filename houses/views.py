@@ -2,12 +2,23 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from .models import House
-from .serializers import HouseSerializer
-from .models import Contract, ContractItem
-from .serializers import ContractSerializer, ContractItemSerializer
+from .models import House, Contract, ContractItem, BusinessType
+from .serializers import HouseSerializer, BusinessTypeSerializer, ContractSerializer, ContractItemSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import mixins, viewsets, generics
+
+class BusinessTypeListCreateView(generics.ListCreateAPIView):
+    queryset = BusinessType.objects.all()
+    serializer_class = BusinessTypeSerializer
+
+class BusinessTypeViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = BusinessType.objects.all().order_by("name")
+    serializer_class = BusinessTypeSerializer
 
 @api_view(['GET'])
 def business_types(request):
