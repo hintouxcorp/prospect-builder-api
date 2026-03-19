@@ -6,12 +6,39 @@ from .models import House
 from .serializers import HouseSerializer
 from .models import Contract, ContractItem
 from .serializers import ContractSerializer, ContractItemSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view(['GET'])
+def business_types(request):
+    types = House.objects.values_list('business_type', flat=True).distinct()
+
+    result = []
+
+    for t in types:
+        label = dict(House.BUSINESS_CHOICES).get(t, t)
+
+        result.append({
+            "value": t,
+            "label": label
+        })
+
+    return Response(result)
 
 @method_decorator(csrf_exempt, name="dispatch")
 class HouseViewSet(ModelViewSet):
-    queryset = House.objects.all()
     serializer_class = HouseSerializer
     permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        queryset = House.objects.all()
+
+        business_type = self.request.query_params.get('business_type')
+
+        if business_type:
+            queryset = queryset.filter(business_type=business_type)
+
+        return queryset
 
     def perform_create(self, serializer):
         if self.request.user.is_authenticated:
