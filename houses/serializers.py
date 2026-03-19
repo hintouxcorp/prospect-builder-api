@@ -7,10 +7,42 @@ class BusinessTypeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class HouseSerializer(serializers.ModelSerializer):
+
+    # 🔥 declarar explicitamente
+    custom_business = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+
     class Meta:
         model = House
         fields = "__all__"
         read_only_fields = ["id", "owner", "created_at", "updated_at"]
+
+    def create(self, validated_data):
+        business_type = validated_data.get("business_type")
+        custom_business = validated_data.get("custom_business")
+
+        print("CREATE DEBUG:", business_type, custom_business)  # 🔍 debug
+
+        if not business_type and custom_business:
+            obj, created = BusinessType.objects.get_or_create(
+                name=custom_business.strip()
+            )
+            validated_data["business_type"] = obj
+
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        business_type = validated_data.get("business_type")
+        custom_business = validated_data.get("custom_business")
+
+        print("UPDATE DEBUG:", business_type, custom_business)  # 🔍 debug
+
+        if not business_type and custom_business:
+            obj, created = BusinessType.objects.get_or_create(
+                name=custom_business.strip()
+            )
+            validated_data["business_type"] = obj
+
+        return super().update(instance, validated_data)
 
 class ContractItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source="product.name", read_only=True)

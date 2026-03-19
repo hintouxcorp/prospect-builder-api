@@ -17,7 +17,7 @@ class BusinessTypeViewSet(
     mixins.CreateModelMixin,
     viewsets.GenericViewSet
 ):
-    queryset = BusinessType.objects.all().order_by("name")
+    queryset = BusinessType.objects.all().order_by("created_at")
     serializer_class = BusinessTypeSerializer
 
 @api_view(['GET'])
